@@ -1,34 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
+import InputField from "./components/InputField";
+import { Todo } from "./model";
 
-function App() {
-  // aliases: types-and-interface
+const App: React.FC = () => {
+  const [todo, setTodo] = useState<string>("");
+  const [todos, setTodos] = useState<Todo[]>([]);
 
-  interface Person {
-    name: string;
-    age?: number;
-  }
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  interface Guy extends Person {
-    profession: string;
-  }
-
-  type X = {
-    a: string;
-    b: number;
+    if (todo) {
+      setTodos([...todos, { id: Date.now(), todo, isDone: false }]);
+      setTodo("");
+    }
   };
 
-  // type Y = X & {
-  //   c: string;
-  //   d: number;
-  // };
+  console.log(todos);
 
-  let y: Y = {
-    c: "efdas",
-    d: 42,
-  };
-
-  return <div className="App">Hello World</div>;
-}
+  return (
+    <div className="App">
+      <span className="heading">Taskify</span>
+      <InputField todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
+      {/*<TodoList />*/}
+    </div>
+  );
+};
 
 export default App;
